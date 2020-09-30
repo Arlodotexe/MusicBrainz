@@ -3,7 +3,7 @@ namespace Hqub.MusicBrainz.API.Entities
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -11,45 +11,51 @@ namespace Hqub.MusicBrainz.API.Entities
     /// which can be expressed in the form of one or more audio recordings.
     /// </summary>
     /// <see href="https://musicbrainz.org/doc/Work"/>
-    [DataContract(Name = "work")]
-    public partial class Work
+    public class Work
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="Work"/>.
+        /// </summary>
+        public Work()
+        {
+        }
+
         #region Properties
 
         /// <summary>
         /// Gets or sets the MusicBrainz id.
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the language.
         /// </summary>
-        [DataMember(Name = "language")]
+        [JsonPropertyName("language")]
         public string Language { get; set; }
 
         /// <summary>
         /// Gets or sets the type.
         /// </summary>
-        [DataMember(Name = "type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        [DataMember(Name = "title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the ISW code.
         /// </summary>
-        [DataMember(Name = "iswc")]
+        [JsonPropertyName("iswc")]
         public string ISWC { get; set; }
 
         /// <summary>
         /// Gets or sets the disambiguation.
         /// </summary>
-        [DataMember(Name = "disambiguation")]
+        [JsonPropertyName("disambiguation")]
         public string Disambiguation { get; set; }
 
         #endregion
@@ -62,7 +68,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Work.GetAsync(mbid, "url-rels");
         /// </example>
-        [DataMember(Name = "relations")]
+        [JsonPropertyName("relations")]
         public List<Relation> Relations { get; set; }
 
         #endregion

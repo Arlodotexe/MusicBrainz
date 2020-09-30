@@ -1,31 +1,37 @@
 
 namespace Hqub.MusicBrainz.API.Entities
 {
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// Artist credits indicate who is the main credited artist (or artists) for releases, release groups, tracks and recordings.
     /// </summary>
     /// <see href="https://musicbrainz.org/doc/Artist_Credits"/>
-    [DataContract(Name = "name-credit")]
     public class NameCredit
     {
         /// <summary>
+        /// Creates a new instance of <see cref="NameCredit"/>.
+        /// </summary>
+        public NameCredit()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the joinphrase.
         /// </summary>
-        [DataMember(Name = "joinphrase")]
+        [JsonPropertyName("joinphrase")]
         public string JoinPhrase { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        [DataMember(Name = "name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the artist.
         /// </summary>
-        [DataMember(Name = "artist")]
+        [JsonPropertyName("artist")]
         public Artist Artist { get; set; }
     }
 }

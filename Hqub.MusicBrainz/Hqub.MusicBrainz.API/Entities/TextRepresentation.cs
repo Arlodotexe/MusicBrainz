@@ -1,21 +1,26 @@
 ﻿
 namespace Hqub.MusicBrainz.API.Entities
 {
-    using System.Runtime.Serialization;
-
-    [DataContract(Name = "text-representation")]
+    using System.Text.Json.Serialization;
     public class TextRepresentation
     {
         /// <summary>
+        /// Creates a new instance of <see cref="TextRepresentation"/>.
+        /// </summary>
+        public TextRepresentation()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the language.
         /// </summary>
-        [DataMember(Name = "language")]
+        [JsonPropertyName("language")]
         public string Language { get; set; }
 
         /// <summary>
         /// Gets or sets the script.
         /// </summary>
-        [DataMember(Name = "script")]
+        [JsonPropertyName("script")]
         public string Script { get; set; }
     }
 }

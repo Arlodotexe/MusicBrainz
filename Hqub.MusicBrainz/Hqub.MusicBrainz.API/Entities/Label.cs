@@ -1,31 +1,37 @@
 ﻿
 namespace Hqub.MusicBrainz.API.Entities
 {
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// Label information.
     /// </summary>
     /// <see href="https://musicbrainz.org/doc/Label"/>
-    [DataContract(Name = "label")]
     public class Label
     {
         /// <summary>
+        /// Creates a new instance of <see cref="Label"/>.
+        /// </summary>
+        public Label()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the MusicBrainz id.
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        [DataMember(Name = "name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the disambiguation.
         /// </summary>
-        [DataMember(Name = "disambiguation")]
+        [JsonPropertyName("disambiguation")]
         public string Disambiguation { get; set; }
     }
 }

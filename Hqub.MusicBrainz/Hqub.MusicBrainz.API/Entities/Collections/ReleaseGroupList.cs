@@ -2,18 +2,24 @@
 namespace Hqub.MusicBrainz.API.Entities.Collections
 {
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// List of release-groups returned by MusicBrainz search requests.
     /// </summary>
-    [DataContract]
     public class ReleaseGroupList : QueryResult
     {
         /// <summary>
+        /// Creates a new instance of <see cref="ReleaseGroupList"/>.
+        /// </summary>
+        public ReleaseGroupList()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "release-groups")]
+        [JsonPropertyName("release-groups")]
         public List<ReleaseGroup> Items { get; set; }
     }
 
@@ -23,13 +29,19 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
     /// <summary>
     /// List of release-groups returned by MusicBrainz browse requests.
     /// </summary>
-    [DataContract]
     internal class ReleaseGroupListBrowse
     {
         /// <summary>
+        /// Creates a new instance of <see cref="ReleaseGroupReleaseGroupListBrowseList"/>.
+        /// </summary>
+        public ReleaseGroupListBrowse()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "release-groups")]
+        [JsonPropertyName("release-groups")]
         public List<ReleaseGroup> Items { get; set; }
 
         // NOTE: hide members of the base class to make serialization work
@@ -37,13 +49,13 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
         /// <summary>
         /// Gets or sets the total list items count.
         /// </summary>
-        [DataMember(Name = "release-group-count")]
+        [JsonPropertyName("release-group-count")]
         public int Count { get; set; }
 
         /// <summary>
         /// Gets or sets the list offset.
         /// </summary>
-        [DataMember(Name = "release-group-offset")]
+        [JsonPropertyName("release-group-offset")]
         public int Offset { get; set; }
     }
 }

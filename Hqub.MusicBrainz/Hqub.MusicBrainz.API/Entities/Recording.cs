@@ -1,56 +1,59 @@
 ﻿
 namespace Hqub.MusicBrainz.API.Entities
 {
-    using Hqub.MusicBrainz.API.Entities.Collections;
-    using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using System.Threading.Tasks;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// A recording is an entity in MusicBrainz which can be linked to tracks on releases. Each track must always
     /// be associated with a single recording, but a recording can be linked to any number of tracks. 
     /// </summary>
     /// <see href="https://musicbrainz.org/doc/Recording"/>
-    [DataContract(Name = "recording")]
-    public partial class Recording
+    public class Recording
     {
+        /// <summary>
+        /// Creates an instance of <see cref="Recording"/>.
+        /// </summary>
+        public Recording()
+        {
+        }
+
         #region Properties
 
         /// <summary>
         /// Gets or sets the score (only available in search results).
         /// </summary>
-        [DataMember(Name = "score")]
+        [JsonPropertyName("score")]
         public int Score { get; set; }
 
         /// <summary>
         /// Gets or sets the MusicBrainz id.
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        [DataMember(Name = "title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the length.
         /// </summary>
-        [DataMember(Name = "length")]
+        [JsonPropertyName("length")]
         public int? Length { get; set; }
 
         /// <summary>
         /// Gets or sets the disambiguation.
         /// </summary>
-        [DataMember(Name = "disambiguation")]
+        [JsonPropertyName("disambiguation")]
         public string Disambiguation { get; set; }
 
         /// <summary>
         /// Gets or sets the rating.
         /// </summary>
-        [DataMember(Name = "rating")]
+        [JsonPropertyName("rating")]
         public Rating Rating { get; set; }
 
         #endregion
@@ -63,7 +66,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Recording.GetAsync(mbid, "artists");
         /// </example>
-        [DataMember(Name = "artist-credit")]
+        [JsonPropertyName("artist-credit")]
         public List<NameCredit> Credits { get; set; }
 
         /// <summary>
@@ -72,7 +75,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Recording.GetAsync(mbid, "releases");
         /// </example>
-        [DataMember(Name = "releases")]
+        [JsonPropertyName("releases")]
         public List<Release> Releases { get; set; }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Recording.GetAsync(mbid, "tags");
         /// </example>
-        [DataMember(Name = "tags")]
+        [JsonPropertyName("tags")]
         public List<Tag> Tags { get; set; }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Recording.GetAsync(mbid, "url-rels");
         /// </example>
-        [DataMember(Name = "relations")]
+        [JsonPropertyName("relations")]
         public List<Relation> Relations { get; set; }
 
         #endregion

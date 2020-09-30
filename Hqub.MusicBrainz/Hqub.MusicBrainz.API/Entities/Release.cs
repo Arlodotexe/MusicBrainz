@@ -4,7 +4,7 @@ namespace Hqub.MusicBrainz.API.Entities
     using Hqub.MusicBrainz.API.Entities.Collections;
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,75 +12,81 @@ namespace Hqub.MusicBrainz.API.Entities
     /// date with specific release information such as the country, label, barcode and packaging.
     /// </summary>
     /// <see href="https://musicbrainz.org/doc/Release"/>
-    [DataContract(Name = "release")]
-    public partial class Release
+    public class Release
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="Release"/>.
+        /// </summary>
+        public Release()
+        {
+        }
+
         #region Properties
 
         /// <summary>
         /// Gets or sets the score (only available in search results).
         /// </summary>
-        [DataMember(Name = "score")]
+        [JsonPropertyName("score")]
         public int Score { get; set; }
 
         /// <summary>
         /// Gets or sets the MusicBrainz id.
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        [DataMember(Name = "title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        [DataMember(Name = "status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
 
         /// <summary>
         /// Gets or sets the quality.
         /// </summary>
-        [DataMember(Name = "quality")]
+        [JsonPropertyName("quality")]
         public string Quality { get; set; }
 
         /// <summary>
         /// Gets or sets the text-representation.
         /// </summary>
-        [DataMember(Name = "text-representation")]
+        [JsonPropertyName("text-representation")]
         public TextRepresentation TextRepresentation { get; set; }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
-        [DataMember(Name = "date")]
+        [JsonPropertyName("date")]
         public string Date { get; set; }
 
         /// <summary>
         /// Gets or sets the country.
         /// </summary>
-        [DataMember(Name = "country")]
+        [JsonPropertyName("country")]
         public string Country { get; set; }
 
         /// <summary>
         /// Gets or sets the barcode.
         /// </summary>
-        [DataMember(Name = "barcode")]
+        [JsonPropertyName("barcode")]
         public string Barcode { get; set; }
 
         /// <summary>
         /// Gets or sets the release-group.
         /// </summary>
-        [DataMember(Name = "release-group")]
+        [JsonPropertyName("release-group")]
         public ReleaseGroup ReleaseGroup { get; set; }
 
         /// <summary>
         /// Gets or sets the cover-art-archive.
         /// </summary>
-        [DataMember(Name = "cover-art-archive")]
+        [JsonPropertyName("cover-art-archive")]
         public CoverArtArchive CoverArtArchive { get; set; }
 
         #endregion
@@ -93,7 +99,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Release.GetAsync(mbid, "artists");
         /// </example>
-        [DataMember(Name = "artist-credit")]
+        [JsonPropertyName("artist-credit")]
         public List<NameCredit> Credits { get; set; }
 
         /// <summary>
@@ -102,7 +108,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Release.GetAsync(mbid, "labels");
         /// </example>
-        [DataMember(Name = "label-info")]
+        [JsonPropertyName("label-info")]
         public List<LabelInfo> Labels { get; set; }
 
         /// <summary>
@@ -111,7 +117,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Release.GetAsync(mbid, "recordings");
         /// </example>
-        [DataMember(Name = "media")]
+        [JsonPropertyName("media")]
         public List<Medium> Media { get; set; }
 
         /// <summary>
@@ -120,7 +126,7 @@ namespace Hqub.MusicBrainz.API.Entities
         /// <example>
         /// var e = await Release.GetAsync(mbid, "url-rels");
         /// </example>
-        [DataMember(Name = "relations")]
+        [JsonPropertyName("relations")]
         public List<Relation> Relations { get; set; }
 
         #endregion

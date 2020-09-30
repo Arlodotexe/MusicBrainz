@@ -1,19 +1,24 @@
-﻿
-namespace Hqub.MusicBrainz.API.Entities.Collections
+﻿namespace Hqub.MusicBrainz.API.Entities.Collections
 {
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
     /// <summary>
     /// List of recordings returned by MusicBrainz search requests.
     /// </summary>
-    [DataContract]
     public class RecordingList : QueryResult
     {
         /// <summary>
+        /// Creates a new instance of <see cref="RecordingList"/>.
+        /// </summary>
+        public RecordingList()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "recordings")]
+        [JsonPropertyName("recordings")]
         public List<Recording> Items { get; set; }
     }
 
@@ -23,13 +28,19 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
     /// <summary>
     /// List of recordings returned by MusicBrainz browse requests.
     /// </summary>
-    [DataContract]
     internal class RecordingListBrowse
     {
         /// <summary>
+        /// Creates a new instance of <see cref="RecordingListBrowse"/>.
+        /// </summary>
+        public RecordingListBrowse()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "recordings")]
+        [JsonPropertyName("recordings")]
         public List<Recording> Items { get; set; }
 
         // NOTE: hide members of the base class to make serialization work
@@ -37,13 +48,13 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
         /// <summary>
         /// Gets or sets the total list items count.
         /// </summary>
-        [DataMember(Name = "recording-count")]
+        [JsonPropertyName("recording-count")]
         public int Count { get; set; }
 
         /// <summary>
         /// Gets or sets the list offset.
         /// </summary>
-        [DataMember(Name = "recording-offset")]
+        [JsonPropertyName("recording-offset")]
         public int Offset { get; set; }
     }
 }

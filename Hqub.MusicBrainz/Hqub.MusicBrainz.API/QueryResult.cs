@@ -1,11 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
+using System.Text.Json.Serialization;
 
 namespace Hqub.MusicBrainz.API
 {
     /// <summary>
     /// Abstract base class for MusicBrainz queries returning lists (with paging support).
     /// </summary>
-    [DataContract]
     public abstract class QueryResult
     {
         /// <summary>
@@ -17,13 +19,13 @@ namespace Hqub.MusicBrainz.API
         /// of available items (on the server), while the number of returned items is
         /// limited by the requests 'limit' parameter (default = 25).
         /// </remarks>
-        [DataMember(Name = "count")]
+        [JsonPropertyName("count")]
         public int Count { get; set; }
 
         /// <summary>
         /// Gets or sets the list offset (only available in search requests).
         /// </summary>
-        [DataMember(Name = "offset")]
+        [JsonPropertyName("offset")]
         public int Offset { get; set; }
     }
 }

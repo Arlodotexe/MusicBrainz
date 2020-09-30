@@ -1,19 +1,25 @@
 ﻿
 namespace Hqub.MusicBrainz.API.Entities.Collections
 {
+    using System.Text.Json.Serialization;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
 
     /// <summary>
     /// List of artists returned by MusicBrainz search requests.
     /// </summary>
-    [DataContract]
     public class ArtistList : QueryResult
     {
         /// <summary>
+        /// Creates a new instance of <see cref="ArtistList"/>.
+        /// </summary>
+        public ArtistList()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "artists")]
+        [JsonPropertyName("artists")]
         public List<Artist> Items { get; set; }
     }
 
@@ -23,13 +29,19 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
     /// <summary>
     /// List of artists returned by MusicBrainz browse requests.
     /// </summary>
-    [DataContract]
     internal class ArtistListBrowse
     {
         /// <summary>
+        /// Creates a new instance of <see cref="ArtistListBrowse"/>.
+        /// </summary>
+        public ArtistListBrowse()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the list of artists.
         /// </summary>
-        [DataMember(Name = "artists")]
+        [JsonPropertyName("artists")]
         public List<Artist> Items { get; set; }
 
         // NOTE: hide members of the base class to make serialization work
@@ -37,13 +49,13 @@ namespace Hqub.MusicBrainz.API.Entities.Collections
         /// <summary>
         /// Gets or sets the total list items count.
         /// </summary>
-        [DataMember(Name = "artist-count")]
+        [JsonPropertyName("artist-count")]
         public int Count { get; set; }
 
         /// <summary>
         /// Gets or sets the list offset.
         /// </summary>
-        [DataMember(Name = "artist-offset")]
+        [JsonPropertyName("artist-offset")]
         public int Offset { get; set; }
     }
 }

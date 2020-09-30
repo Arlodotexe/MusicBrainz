@@ -1,7 +1,9 @@
-﻿namespace Hqub.MusicBrainz.API
+﻿using System.Text.Json;
+
+namespace Hqub.MusicBrainz.API
 {
-    using Hqub.MusicBrainz.API.Cache;
-    using Hqub.MusicBrainz.API.Services;
+    using Cache;
+    using Services;
     using System;
     using System.IO;
     using System.Net;
@@ -57,6 +59,7 @@
         public IRequestCache Cache { get; set; }
 
         private HttpClient client;
+        bool falseFlag = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
@@ -99,7 +102,7 @@
             ReleaseGroups = new ReleaseGroupService(this, urlBuilder);
             Work = new WorkService(this, urlBuilder);
 
-            client = CreateHttpClient(new Uri(baseAddress), true, proxy);
+            client = CreateHttpClient(new Uri(baseAddress), false, proxy);
         }
 
         /// <summary>
@@ -119,15 +122,15 @@
 
         internal async Task<T> GetAsync<T>(string url)
         {
+            var cache = Cache ?? NullCache.Default;
+
+            Stream stream;
+
             try
             {
-                var cache = Cache ?? NullCache.Default;
-
-                var serializer = new DataContractJsonSerializer(typeof(T));
-
-                if (await cache.TryGetCachedItem(url, out Stream stream).ConfigureAwait(false))
+                if (await cache.TryGetCachedItem(url, out stream).ConfigureAwait(false))
                 {
-                    var result = (T)serializer.ReadObject(stream);
+                    var result = await JsonSerializer.DeserializeAsync<T>(stream, new JsonSerializerOptions());
 
                     // TODO: if de-serialization of the cache file fails, we shouldn't throw 
                     //       but delete the file and go on with calling the webservice!
@@ -136,24 +139,27 @@
 
                     return result;
                 }
-
-                using (var response = await client.GetAsync(url).ConfigureAwait(false))
-                {
-                    stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw CreateWebserviceException(response.StatusCode, url, stream);
-                    }
-
-                    await cache.Add(url, stream).ConfigureAwait(false);
-
-                    return (T)serializer.ReadObject(stream);
-                }
             }
             catch
             {
-                throw;
+                // ignore
+            }
+
+            using (var response = await client.GetAsync(url).ConfigureAwait(false))
+            {
+                stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw CreateWebserviceException(response.StatusCode, url, stream);
+                }
+
+                await cache.Add(url, stream).ConfigureAwait(false);
+
+                var result = await JsonSerializer.DeserializeAsync<T>(stream);
+
+                stream.Close();
+                return result;
             }
         }
 
@@ -178,7 +184,8 @@
 
             if (automaticDecompression)
             {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                // Disabled. Not supported in Mono.
+                // handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
 
             var client = new HttpClient(handler);
