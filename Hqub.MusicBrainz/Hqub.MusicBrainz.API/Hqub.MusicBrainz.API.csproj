@@ -3,6 +3,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFrameworks>netstandard2.0;</TargetFrameworks>
     <PackageId>MusicBrainzAPI</PackageId>
     <Description>Implementation of the MuzicBrainz API v2.</Description>
     <Product>Hqub.MusicBrainz.API</Product>
@@ -28,25 +29,6 @@ Additional changes:
 * Search queries will be escaped correclty. This means that search results may be different compared to previous versions, but hopefully for the better.
 * Improved deserialization of browse requests.</PackageReleaseNotes>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Travis' ">
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' != 'Travis' ">
-    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
-    <DefineConstants>NET45</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json">
