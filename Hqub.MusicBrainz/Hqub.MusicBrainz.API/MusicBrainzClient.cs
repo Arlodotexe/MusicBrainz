@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using ComposableAsync;
+using RateLimiter;
 
 namespace Hqub.MusicBrainz.API
 {
@@ -64,35 +66,8 @@ namespace Hqub.MusicBrainz.API
         /// <summary>
         /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
         /// </summary>
-        public MusicBrainzClient()
-            : this(ServiceBaseAddress, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
-        /// </summary>
-        /// <param name="proxy">The <see cref="IWebProxy"/> used to connect to the webservice.</param>
-        public MusicBrainzClient(IWebProxy proxy)
-            : this(ServiceBaseAddress, proxy)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
-        /// </summary>
         /// <param name="baseAddress">The base address of the webservice (default = <see cref="ServiceBaseAddress"/>).</param>
         public MusicBrainzClient(string baseAddress)
-            : this(baseAddress, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
-        /// </summary>
-        /// <param name="baseAddress">The base address of the webservice (default = <see cref="ServiceBaseAddress"/>).</param>
-        /// <param name="proxy">The <see cref="IWebProxy"/> used to connect to the webservice.</param>
-        public MusicBrainzClient(string baseAddress, IWebProxy proxy)
         {
             var urlBuilder = new UrlBuilder(true);
 
@@ -102,7 +77,7 @@ namespace Hqub.MusicBrainz.API
             ReleaseGroups = new ReleaseGroupService(this, urlBuilder);
             Work = new WorkService(this, urlBuilder);
 
-            client = CreateHttpClient(new Uri(baseAddress), false, proxy);
+            client = CreateHttpClient(new Uri(baseAddress), false);
         }
 
         /// <summary>
@@ -172,15 +147,13 @@ namespace Hqub.MusicBrainz.API
             return new WebServiceException(error.Message, status, url);
         }
 
-        private HttpClient CreateHttpClient(Uri baseAddress, bool automaticDecompression, IWebProxy proxy)
+        private HttpClient CreateHttpClient(Uri baseAddress, bool automaticDecompression)
         {
-            var handler = new HttpClientHandler();
+            var handler = TimeLimiter
+                .GetFromMaxCountByInterval(300, TimeSpan.FromSeconds(1))
+                .AsDelegatingHandler();
 
-            if (proxy != null)
-            {
-                handler.Proxy = proxy;
-                handler.UseProxy = true;
-            }
+            // proxy support removed, not supported by handler created by RateLimiter lib
 
             if (automaticDecompression)
             {

@@ -31,6 +31,7 @@ Additional changes:
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RateLimiter" Version="2.1.0" />
     <PackageReference Include="System.Text.Json">
       <Version>4.7.2</Version>
     </PackageReference>
