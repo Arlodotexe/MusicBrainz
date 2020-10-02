@@ -60,8 +60,15 @@ namespace Hqub.MusicBrainz.API
         /// </summary>
         public IRequestCache Cache { get; set; }
 
-        private HttpClient client;
-        bool falseFlag = false;
+        private readonly HttpClient client;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
+        /// </summary>
+        public MusicBrainzClient()
+            : this(ServiceBaseAddress)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MusicBrainzClient"/> class.
