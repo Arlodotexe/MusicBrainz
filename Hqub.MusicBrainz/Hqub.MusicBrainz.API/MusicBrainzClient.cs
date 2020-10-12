@@ -1,6 +1,4 @@
 ﻿using System.Text.Json;
-using ComposableAsync;
-using RateLimiter;
 
 namespace Hqub.MusicBrainz.API
 {
@@ -156,11 +154,7 @@ namespace Hqub.MusicBrainz.API
 
         private HttpClient CreateHttpClient(Uri baseAddress, bool automaticDecompression)
         {
-            var handler = TimeLimiter
-                .GetFromMaxCountByInterval(300, TimeSpan.FromSeconds(1))
-                .AsDelegatingHandler();
-
-            // proxy support removed, not supported by handler created by RateLimiter lib
+            var handler = new RateLimitedHttpClientHandler(TimeSpan.FromSeconds(1), 300);
 
             if (automaticDecompression)
             {
