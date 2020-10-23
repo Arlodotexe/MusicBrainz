@@ -154,7 +154,7 @@ namespace Hqub.MusicBrainz.API
 
         private HttpClient CreateHttpClient(Uri baseAddress, bool automaticDecompression)
         {
-            var handler = new RateLimitedHttpClientHandler(TimeSpan.FromSeconds(1), 300);
+            var handler = new RateLimitedHttpClientHandler(TimeSpan.FromSeconds(1.5), 1);
 
             if (automaticDecompression)
             {
